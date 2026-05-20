@@ -194,3 +194,15 @@ S3 Enriched Layer
     ↓
 DLQ for failures
 ```
+
+## AWS Lambda Trigger – SQS Event Source Mapping
+
+<p align="center"> <img src="https://raw.githubusercontent.com/aaqibtariq/Real-Time-CRM-Lead-Processing/main/Phases/Setup/setup_files/crm_lead_enrichment_lambda%20trigger.png" width="750"/> </p>
+
+## Amazon SQS – CRM Lead Delay Queue
+
+<p align="center"> <img src="https://raw.githubusercontent.com/aaqibtariq/Real-Time-CRM-Lead-Processing/main/Phases/Setup/setup_files/crm-lead-delay-queue.png" width="750"/> </p>
+
+## Amazon CloudWatch – Pipeline Monitoring Logs
+
+<p align="center"> <img src="https://raw.githubusercontent.com/aaqibtariq/Real-Time-CRM-Lead-Processing/main/Phases/Setup/setup_files/cloudwatch%20logs.png" width="750"/> </p>
