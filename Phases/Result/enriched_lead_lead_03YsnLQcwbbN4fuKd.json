@@ -1,0 +1,16 @@
+{
+  "lead_id": "lead_03YsnLQcwbbN4fuKdp******",
+  "display_name": "Christian",
+  "status_label": "Potential",
+  "date_created": "2026-05-18T22:46:01.319000+00:00",
+  "lead_email": "cafrank******@gmail.com",
+  "lead_owner": "Ninad ******",
+  "funnel": "YT DE ACADEMY ******",
+  "lookup_status": "found",
+  "lookup_url": "https://******.s3.us-east-1.amazonaws.com/lead_03YsnLQcwbbN4fuKdp4************.json",
+  "enrichment_metadata": {
+    "enriched_at_utc": "2026-05-18T22:56:04.745799+00:00",
+    "source_raw_bucket": "crm-lead-pipeline-raw-aqib",
+    "source_raw_key": "source/crm_event_lead_03YsnLQcwbbN4fuKdp4******.json"
+  }
+}
