@@ -4,15 +4,55 @@ SQS delay queue to wait 10 minutes before enrichment processing
 - DLQ: crm-lead-delay-dlq
 - Queue URL: https://sqs.us-east-1.amazonaws.com/********/crm-lead-delay-queue
 
-## Main Queue Settings
+## Create DLQ first
 
-- Type: Standard
-- Delivery delay: 10 minutes
-- Visibility timeout: 2 minutes
-- Message retention: 4 days
-- DLQ max receives: 3
+- Go to:
+    - AWS Console → SQS → Create queue
+    - Type: Standard
+    - Name: crm-lead-delay-dlq
+    - Keep defaults and create queue.
+ ## Main Delay Queue
 
-## Added Lambda 
+ - SQS → Create queue
+ - Type: Standard
+ - Name: crm-lead-delay-queue
+
+- Set
+   -  Delivery delay: 10 minutes
+    - Visibility timeout: 2 minutes
+   -  Message retention period: 4 days
+ 
+# Attach DLQ to Main Queue
+
+- Open crm-lead-delay-queue
+- Click Dead-letter queue
+- Edit
+- Visibility timeout - 2 min
+- Delivery delay - 10 min
+- Message retention period 4 days
+- Redrive allow policy allow
+- Redrive permission allow all
+- Dead-letter queue enabled
+- Set this queue to receive undeliverable messages. enabled
+- Choose queue select your crm-lead-delay-dlq
+- Maximum receives 3
+- Save
+
+# Copy Main Queue URL\
+
+- After queue is created, open:
+- crm-lead-delay-queue
+- Copy the Queue URL.
+- It will look like:
+    - https://sqs.us-east-1.amazonaws.com/<account-id>/crm-lead-delay-queue
+- We will use this in the ingestion Lambda
+
+## Add SQS Permission to Lambda Role 
+
+- Go to:
+    - Lambda → crm_webhook_ingestion_lambda → Configuration → Permissions
+- Click the Execution role.
+- Add inline policy:
 
 ```
 
@@ -31,6 +71,8 @@ SQS delay queue to wait 10 minutes before enrichment processing
 }
 
 ```
+
+- Create
 
 # Updated Ingestion Lambda Code
 
@@ -155,5 +197,26 @@ def lambda_handler(event, context):
                 "error": str(e)
             })
         }
+
+```
+
+**Check SQS → crm-lead-delay-queue → Monitoring**
+**check CloudWatch logs for:**
+**=== S3 WRITE SUCCESS ===**
+**=== SQS MESSAGE SENT ===**
+
+
+```
+Close CRM
+    ↓
+API Gateway
+    ↓
+Lambda Ingestion
+    ↓
+S3 Raw Storage
+    ↓
+SQS Delay Queue (10 mins)
+    ↓
+DLQ (failure handling)
 
 ```
