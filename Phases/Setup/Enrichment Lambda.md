@@ -182,14 +182,15 @@ Close CRM
     ↓
 API Gateway
     ↓
-Ingestion Lambda
+Lambda Ingestion
     ↓
-S3 Raw
+S3 Raw Layer
     ↓
-SQS Delay Queue (10 min)
+SQS Delay Queue (10 mins)
     ↓
 Enrichment Lambda
     ↓
-S3 Enriched
-
+S3 Enriched Layer
+    ↓
+DLQ for failures
 ```
