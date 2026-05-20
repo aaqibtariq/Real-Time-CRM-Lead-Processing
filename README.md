@@ -62,7 +62,7 @@ The architecture demonstrates a scalable, fault-tolerant, loosely coupled server
 
 - AWS Lambda
 - Amazon API Gateway
-- - Amazon S3
+- Amazon S3
 - Amazon SQS
 - Amazon SNS
 - Amazon CloudWatch
