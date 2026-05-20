@@ -58,105 +58,168 @@ The architecture demonstrates a scalable, fault-tolerant, loosely coupled server
 
 <p align="center"> <img src="https://raw.githubusercontent.com/aaqibtariq/Real-Time-CRM-Lead-Processing/main/Phases/Architecture/SD%20for%20CRM%20Lead%20processing.png" width="850"/> </p>
 
+## Technologies Used
 
-## Architecture Components
-
-
-- Create AWS Lambda Function (crm_webhook_ingestion_lambda)
-- Add Initial Webhook Test Code in Lambda
-- Create API Gateway HTTP API
-- Configure POST /crm Route
-- Enable $default Stage Auto Deployment
-- Copy API Gateway Webhook URL
-- Create Close CRM API Key
-- Create Close CRM Webhook Subscription
-- Test Real-Time Lead Creation from Close CRM
-- Verify Webhook Payload in CloudWatch Logs
-- Create Amazon S3 Raw Bucket (crm-lead-pipeline-raw-aqib)
-- Create source/ Folder in S3
-- Add S3 PutObject Permission to Lambda IAM Role
-- Update Lambda to Parse CRM Webhook Payload
-- Extract lead_id and Required Lead Fields
-- Generate Dynamic File Name (crm_event_{lead_id}.json)
-- Store CRM Event JSON into Amazon S3
-- Validate File Creation in S3 Bucket
-- Verify End-to-End Webhook Ingestion Flow
+- AWS Lambda
+- Amazon API Gateway
+- - Amazon S3
+- Amazon SQS
+- Amazon SNS
+- Amazon CloudWatch
+- Close CRM Webhooks
+- Python (boto3)
+- JSON Event Processing
+  
+# Architecture Components
 
 
-- raw S3 setup.md
-- Webhook setup.md
-- ingestion_lambda setup.md
-- Close CRM → API Gateway → Lambda → S3 Raw Folder
-
-- SQS Delay Queue.md
-
-```
+CRM Source System
 Close CRM
-    ↓
-API Gateway
-    ↓
-Lambda Ingestion
-    ↓
-S3 Raw Storage
-    ↓
-SQS Delay Queue (10 mins)
-    ↓
-DLQ (failure handling)
-```
-- Enrichment S3.md
-- Enrichment Lambda.md
-- Lead Owner Lookup Integration.md
+Generates lead creation events
+Sends webhook payloads in real time
+Source system for customer acquisition events
+API Layer
+Amazon API Gateway
+Exposes public webhook endpoint
+Receives incoming HTTP POST webhook requests
+Routes requests to ingestion Lambda
 
-```
-Close CRM
-   ↓
-API Gateway
-   ↓
-Ingestion Lambda
-   ↓
-Raw S3 Bucket
-   ↓
-SQS Delay Queue (10 min)
-   ↓
-Enrichment Lambda
-   ↓
-Public S3 Lookup
-   ↓
-Enriched S3 Bucket
+Endpoint:
 
-```
+POST /crm
+Ingestion Layer
+AWS Lambda — crm_webhook_ingestion_lambda
 
-SNS 
+Responsibilities:
 
-```
+Parses webhook payload
+Extracts lead metadata
+Writes raw event JSON into S3
+Sends delayed processing message into SQS
+Raw Storage Layer
+Amazon S3 — Raw Bucket
 
-Close CRM
-   ↓
-API Gateway
-   ↓
-Ingestion Lambda
-   ↓
-Raw S3 Bucket
-   ↓
-SQS Delay Queue (10 min)
-   ↓
-Enrichment Lambda
-   ↓
-Public S3 Lookup
-   ↓
-Enriched S3 Bucket
-   ↓
-SNS Email Notification
+Bucket:
 
-```
+crm-lead-pipeline-raw-aqib
 
-- Close CRM webhook subscription
-- API Gateway endpoint
-- Ingestion Lambda
-- Raw S3 storage
-- SQS 10-minute delay queue
-- DLQ retry/error handling
-- Enrichment Lambda
-- Public S3 lookup by lead_id
-- Enriched S3 target output
-- SNS email notification
+Folder:
+
+source/
+
+Purpose:
+
+Immutable raw event storage
+Replay capability
+Audit trail
+Source-of-truth webhook archive
+Asynchronous Processing Layer
+Amazon SQS Delay Queue
+
+Queue:
+
+crm-lead-delay-queue
+
+Purpose:
+
+Introduces 10-minute delay before enrichment
+Allows CRM ownership assignment completion
+Decouples ingestion from enrichment
+Smooths traffic spikes
+Dead Letter Queue (DLQ)
+
+Queue:
+
+crm-lead-delay-dlq
+
+Purpose:
+
+Captures failed processing events
+Supports retry/error investigation
+Improves pipeline resiliency
+Enrichment Layer
+AWS Lambda — crm_lead_enrichment_lambda
+
+Responsibilities:
+
+Consumes delayed SQS messages
+Reads raw lead event from S3
+Retrieves public lookup metadata
+Enriches lead information
+Writes final enriched JSON to target S3
+Sends SNS notifications
+Public Lookup Layer
+Public Amazon S3 Lookup Bucket
+
+Lookup URL:
+
+https://***.s3.us-east-1.amazonaws.com/{lead_id}.json
+
+Purpose:
+
+Stores lead owner lookup data
+Provides additional enrichment metadata
+Simulates external lookup/enrichment service
+
+Lookup attributes:
+
+lead owner
+lead email
+funnel
+lead metadata
+Enriched Storage Layer
+Amazon S3 — Enriched Bucket
+
+Bucket:
+
+crm-lead-pipeline-enriched-aqib
+
+Folder:
+
+target/
+
+Purpose:
+
+Stores enriched lead records
+Final curated output layer
+Downstream analytics/reporting source
+Notification Layer
+Amazon SNS
+
+Topic:
+
+crm-lead-email-alert-topic
+
+Purpose:
+
+Sends automated lead alert emails
+Notifies stakeholders of newly enriched leads
+Provides real-time business visibility
+
+Email includes:
+
+lead name
+lead email
+lead owner
+funnel
+status
+creation date
+Monitoring Layer
+Amazon CloudWatch
+
+Purpose:
+
+Lambda logging
+SQS monitoring
+Error tracking
+Debugging
+Operational observability
+
+Tracked metrics:
+
+delayed messages
+visible messages
+failed executions
+Lambda logs
+DLQ activity
+
