@@ -1,0 +1,42 @@
+{
+  "subscription_id": "whsub_0rrXUnkwY320********",
+  "event": {
+    "id": "ev_4E2jjPdoms5d7GbnWyMVhI",
+    "date_created": "2026-05-19T02:08:48.857000",
+    "date_updated": "2026-05-19T02:08:48.857000",
+    "organization_id": "orga_rq7EW7TTwnrAshSzIQ49jJUWzD********",
+    "user_id": "user_RoWq89U2oZOlTTfJScR9pTREnX3AAeNdK********",
+    "request_id": "req_6qDFSOjpsOEAWC0dfeKfQV",
+    "object_type": "lead",
+    "object_id": "lead_n1gzn8oUgkDB8hByfXlwcx4pz********",
+    "lead_id": "lead_n1gzn8oUgkDB8hByfXlwcx4pz********",
+    "action": "created",
+    "changed_fields": [],
+    "meta": {
+      "request_path": "/api/v1/lead/",
+      "request_method": "POST"
+    },
+    "data": {
+      "id": "lead_n1gzn8oUgkDB8hByfXlwcx4pz********",
+      "display_name": "Micah Lowden",
+      "date_created": "2026-05-19T02:08:48.825000+00:00",
+      "date_updated": "2026-05-19T02:08:48.855000+00:00",
+      "status_label": "Potential",
+      "status_id": "stat_w883GIAbRCWhns1gvURwAa********",
+      "created_by": "user_RoWq89U2oZOlTTfJScR9p********",
+      "created_by_name": "Christopher Garzon",
+      "updated_by": "user_RoWq89U2oZOlTTfJScR9p********",
+      "updated_by_name": "Christopher Garzon",
+      "contact_ids": [
+        "cont_dIKQzSlMR3MR14NxdTMTQ********"
+      ],
+      "custom.cf_am3UgCUhyM5iNDtAPL84enDjUrZx1JsyVZ9uD9TbYwG": "********"
+    },
+    "previous_data": {}
+  },
+  "ingestion_metadata": {
+    "ingested_at_utc": "2026-05-19T02:08:51.120186+00:00",
+    "source": "close_crm_webhook",
+    "api_gateway_request_id": "dlvn7hHio********"
+  }
+}

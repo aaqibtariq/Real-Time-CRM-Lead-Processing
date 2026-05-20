@@ -1,0 +1,16 @@
+{
+  "lead_id": "lead_n1gzn8oUgkDB8hByfXlw********",
+  "display_name": "Micah Lowden",
+  "status_label": "Potential",
+  "date_created": "2026-05-19T02:08:48.825000+00:00",
+  "lead_email": "micahlikes********@gmail.com",
+  "lead_owner": "Ninad Magdum",
+  "funnel": "dea_labs",
+  "lookup_status": "found",
+  "lookup_url": "https://********.s3.us-east-1.amazonaws.com/lead_n1gzn8oUgkDB8hByfXlwcx4p********.json",
+  "enrichment_metadata": {
+    "enriched_at_utc": "2026-05-19T02:18:53.130837+00:00",
+    "source_raw_bucket": "crm-lead-pipeline-raw-aqib",
+    "source_raw_key": "source/crm_event_lead_n1gzn8oUgkDB8hByfXlwcx4pz********.json"
+  }
+}
