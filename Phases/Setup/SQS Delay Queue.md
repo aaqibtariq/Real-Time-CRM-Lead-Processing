@@ -233,6 +233,9 @@ DLQ (failure handling)
 
 ```
 
+## AWS Lambda – SQS Lead Enrichment Function
+
+<p align="center"> <img src="https://raw.githubusercontent.com/aaqibtariq/Real-Time-CRM-Lead-Processing/main/Phases/Setup/setup_files/SQS%20Enrichment%20Lambda.png" width="750"/> </p>
 
 # Amazon CloudWatch – Webhook Ingestion Logs
 
