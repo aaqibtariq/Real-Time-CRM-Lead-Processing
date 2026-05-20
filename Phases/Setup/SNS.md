@@ -201,4 +201,17 @@ def lambda_handler(event, context):
 
 
 ```
+Expected output in email
 
+```
+New Lead Alert
+
+Name:
+Lead ID:
+Created Date:
+Label:
+Email:
+Lead Owner:
+Funnel:
+
+```
