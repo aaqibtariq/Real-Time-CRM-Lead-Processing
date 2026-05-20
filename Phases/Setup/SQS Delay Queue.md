@@ -4,6 +4,10 @@ SQS delay queue to wait 10 minutes before enrichment processing
 - DLQ: crm-lead-delay-dlq
 - Queue URL: https://sqs.us-east-1.amazonaws.com/********/crm-lead-delay-queue
 
+# SQS – Queue 
+
+<p align="center"> <img src="https://raw.githubusercontent.com/aaqibtariq/Real-Time-CRM-Lead-Processing/main/Phases/Setup/setup_files/Queues.png" width="750"/> </p>
+
 ## Create DLQ first
 
 - Go to:
@@ -37,6 +41,14 @@ SQS delay queue to wait 10 minutes before enrichment processing
 - Choose queue select your crm-lead-delay-dlq
 - Maximum receives 3
 - Save
+
+## Amazon SQS – Delay Queue 
+
+<p align="center"> <img src="https://raw.githubusercontent.com/aaqibtariq/Real-Time-CRM-Lead-Processing/main/Phases/Setup/setup_files/Edit%20crm-lead-delay-queue.png" width="750"/> </p>
+
+## Amazon SQS – Dead Letter Queue (DLQ)
+
+<p align="center"> <img src="https://raw.githubusercontent.com/aaqibtariq/Real-Time-CRM-Lead-Processing/main/Phases/Setup/setup_files/Dead-letter%20queue.png" width="750"/> </p>
 
 # Copy Main Queue URL\
 
@@ -220,3 +232,8 @@ SQS Delay Queue (10 mins)
 DLQ (failure handling)
 
 ```
+
+
+# Amazon CloudWatch – Webhook Ingestion Logs
+
+<p align="center"> <img src="https://raw.githubusercontent.com/aaqibtariq/Real-Time-CRM-Lead-Processing/main/Phases/Setup/setup_files/cloudwatch%20crm_webhook_ingestion_lambda.png" width="750"/> </p>
