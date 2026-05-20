@@ -73,70 +73,71 @@ The architecture demonstrates a scalable, fault-tolerant, loosely coupled server
 # Architecture Components
 
 
-CRM Source System
-Close CRM
-Generates lead creation events
-Sends webhook payloads in real time
-Source system for customer acquisition events
-API Layer
-Amazon API Gateway
-Exposes public webhook endpoint
-Receives incoming HTTP POST webhook requests
-Routes requests to ingestion Lambda
+- 📨 [SQS Delay Queue Setup](https://github.com/aaqibtariq/Real-Time-CRM-Lead-Processing/blob/main/Phases/Setup/SQS%20Delay%20Queue.md)
+- ⚡ [Enrichment S3 Setup](https://github.com/aaqibtariq/Real-Time-CRM-Lead-Processing/blob/main/Phases/Setup/Enrichment%20S3.md)
+- 🧠 [Enrichment Lambda Setup](https://github.com/aaqibtariq/Real-Time-CRM-Lead-Processing/blob/main/Phases/Setup/Enrichment%20Lambda.md)
+- 👤 [Lead Owner Lookup Integration](https://github.com/aaqibtariq/Real-Time-CRM-Lead-Processing/blob/main/Phases/Setup/Lead%20Owner%20Lookup%20Integration.md)
+- 🔔 [SNS Alerting Setup](https://github.com/aaqibtariq/Real-Time-CRM-Lead-Processing/blob/main/Phases/Setup/SNS.md)
 
-Endpoint:
+## CRM Source System
+- Close CRM
+- Generates lead creation events
+- Sends webhook payloads in real time
+- Source system for customer acquisition events
 
-POST /crm
-Ingestion Layer
-AWS Lambda — crm_webhook_ingestion_lambda
 
-Responsibilities:
+## API Layer
+- Amazon API Gateway
+- Exposes public webhook endpoint
+- Receives incoming HTTP POST webhook requests
+- Routes requests to ingestion Lambda
+- Endpoint:
+  - POST /crm
+## Ingestion Layer
 
-Parses webhook payload
-Extracts lead metadata
-Writes raw event JSON into S3
-Sends delayed processing message into SQS
-Raw Storage Layer
+- AWS Lambda — crm_webhook_ingestion_lambda
+
+  - Responsibilities:
+     - Parses webhook payload
+     - Extracts lead metadata
+     - Writes raw event JSON into S3
+     - Sends delayed processing message into SQS
+
+## Raw Storage Layer
+
 Amazon S3 — Raw Bucket
+- Bucket:
+     - crm-lead-pipeline-raw-aqib
+     - Folder:
+       - source/
+- Purpose:
+     - Immutable raw event storage
+     - Replay capability
+     - Audit trail
+     - Source-of-truth webhook archive
+- [Raw S3 Setup](https://github.com/aaqibtariq/Real-Time-CRM-Lead-Processing/blob/main/Phases/Setup/raw%20S3%20setup.md)
 
-Bucket:
+## Asynchronous Processing Layer
 
-crm-lead-pipeline-raw-aqib
-
-Folder:
-
-source/
-
-Purpose:
-
-Immutable raw event storage
-Replay capability
-Audit trail
-Source-of-truth webhook archive
-Asynchronous Processing Layer
 Amazon SQS Delay Queue
 
-Queue:
+**Queue: crm-lead-delay-queue**
 
-crm-lead-delay-queue
+- Purpose:
+     - Introduces 10-minute delay before enrichment
+     - Allows CRM ownership assignment completion
+     - Decouples ingestion from enrichment
+     - Smooths traffic spikes
+     - Dead Letter Queue (DLQ)
 
-Purpose:
-
-Introduces 10-minute delay before enrichment
-Allows CRM ownership assignment completion
-Decouples ingestion from enrichment
-Smooths traffic spikes
-Dead Letter Queue (DLQ)
-
-Queue:
-
-crm-lead-delay-dlq
+**Queue: crm-lead-delay-dlq**
 
 Purpose:
 
-Captures failed processing events
-Supports retry/error investigation
-Improves pipeline resiliency
+     - Captures failed processing events
+     - Supports retry/error investigation
+     - Improves pipeline resiliency
+     
 Enrichment Layer
 AWS Lambda — crm_lead_enrichment_lambda
 
