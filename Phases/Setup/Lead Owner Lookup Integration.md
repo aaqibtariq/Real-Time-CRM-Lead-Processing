@@ -125,3 +125,6 @@ def lambda_handler(event, context):
     }
 
 ```
+
+Expected output:
+   -   s3://crm-lead-pipeline-enriched-aqib/target/enriched_lead_<lead_id>.json
