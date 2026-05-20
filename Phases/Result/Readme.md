@@ -1,11 +1,11 @@
 
 # CRM Raw Lead Event – JSON Output
 
--  [Raw CRM Lead Event JSON](https://github.com/aaqibtariq/Real-Time-CRM-Lead-Processing/blob/main/Phases/Result/crm_event_lead_03YsnLQcwbbN4fuKdp4FP4.json)
+-  [Raw CRM Lead Event JSON – Sample 2](https://github.com/aaqibtariq/Real-Time-CRM-Lead-Processing/blob/main/Phases/Result/crm_event_lead_n1gzn8oUgkDB8hByf.json)
 
 # Enriched CRM Lead – JSON Output
 
--  [Enriched Lead JSON](https://github.com/aaqibtariq/Real-Time-CRM-Lead-Processing/blob/main/Phases/Result/enriched_lead_lead_03YsnLQcwbbN4fuKd.json)
+-  [Enriched CRM Lead JSON – Sample 2](https://github.com/aaqibtariq/Real-Time-CRM-Lead-Processing/blob/main/Phases/Result/enriched_lead_lead_n1gzn8oUgkDB8hByf.json)
   
 # CRM Pipeline Result Screenshot 1
 
