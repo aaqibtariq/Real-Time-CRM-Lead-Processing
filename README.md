@@ -88,3 +88,14 @@ Enriched S3 Bucket
 SNS Email Notification
 
 ```
+
+- Close CRM webhook subscription
+- API Gateway endpoint
+- Ingestion Lambda
+- Raw S3 storage
+- SQS 10-minute delay queue
+- DLQ retry/error handling
+- Enrichment Lambda
+- Public S3 lookup by lead_id
+- Enriched S3 target output
+- SNS email notification
