@@ -64,3 +64,27 @@ Public S3 Lookup
 Enriched S3 Bucket
 
 ```
+
+SNS 
+
+```
+
+Close CRM
+   ↓
+API Gateway
+   ↓
+Ingestion Lambda
+   ↓
+Raw S3 Bucket
+   ↓
+SQS Delay Queue (10 min)
+   ↓
+Enrichment Lambda
+   ↓
+Public S3 Lookup
+   ↓
+Enriched S3 Bucket
+   ↓
+SNS Email Notification
+
+```
