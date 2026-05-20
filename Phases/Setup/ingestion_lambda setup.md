@@ -175,7 +175,3 @@ You will get response like
 you can also verify Logs in Lmabda
 - Lambda → crm_webhook_ingestion_lambda → Monitor → View CloudWatch Logs
 
-
-33 Amazon CloudWatch – Webhook Ingestion Logs
-
-<p align="center"> <img src="https://raw.githubusercontent.com/aaqibtariq/Real-Time-CRM-Lead-Processing/main/Phases/Setup/setup_files/cloudwatch%20crm_webhook_ingestion_lambda.png" width="750"/> </p>
