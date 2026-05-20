@@ -45,3 +45,22 @@ DLQ (failure handling)
 - Enrichment S3.md
 - Enrichment Lambda.md
 - Lead Owner Lookup Integration.md
+
+```
+Close CRM
+   ↓
+API Gateway
+   ↓
+Ingestion Lambda
+   ↓
+Raw S3 Bucket
+   ↓
+SQS Delay Queue (10 min)
+   ↓
+Enrichment Lambda
+   ↓
+Public S3 Lookup
+   ↓
+Enriched S3 Bucket
+
+```
