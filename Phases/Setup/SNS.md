@@ -61,7 +61,7 @@ ENRICHED_PREFIX = "target"
 
 PUBLIC_LOOKUP_BASE_URL = "https://***-lead-owner.s3.us-east-1.amazonaws.com"
 
-SNS_TOPIC_ARN = "arn:aws:sns:us-east-1::****:crm-lead-email-alert-topic"
+SNS_TOPIC_ARN = "arn:aws:sns:us-east-1:***:crm-lead-email-alert-topic"
 
 FUNNEL_FIELD = "custom.cf_am3UgCUhyM5iNDtAPL84enDjUrZx1JsyVZ9uD9TbYwG"
 
