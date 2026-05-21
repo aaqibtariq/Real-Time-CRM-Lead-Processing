@@ -73,20 +73,19 @@ The architecture demonstrates a scalable, fault-tolerant, loosely coupled server
 # Architecture Components
 
 
-- 📨 [SQS Delay Queue Setup](https://github.com/aaqibtariq/Real-Time-CRM-Lead-Processing/blob/main/Phases/Setup/SQS%20Delay%20Queue.md)
-- ⚡ [Enrichment S3 Setup](https://github.com/aaqibtariq/Real-Time-CRM-Lead-Processing/blob/main/Phases/Setup/Enrichment%20S3.md)
-- 🧠 [Enrichment Lambda Setup](https://github.com/aaqibtariq/Real-Time-CRM-Lead-Processing/blob/main/Phases/Setup/Enrichment%20Lambda.md)
-- 👤 [Lead Owner Lookup Integration](https://github.com/aaqibtariq/Real-Time-CRM-Lead-Processing/blob/main/Phases/Setup/Lead%20Owner%20Lookup%20Integration.md)
-- 🔔 [SNS Alerting Setup](https://github.com/aaqibtariq/Real-Time-CRM-Lead-Processing/blob/main/Phases/Setup/SNS.md)
+
 
 ## CRM Source System
+
 - Close CRM
 - Generates lead creation events
 - Sends webhook payloads in real time
 - Source system for customer acquisition events
 
+- [Webhook Setup](https://github.com/aaqibtariq/Real-Time-CRM-Lead-Processing/blob/main/Phases/Setup/Webhook%20setup.md)
 
 ## API Layer
+
 - Amazon API Gateway
 - Exposes public webhook endpoint
 - Receives incoming HTTP POST webhook requests
@@ -95,17 +94,18 @@ The architecture demonstrates a scalable, fault-tolerant, loosely coupled server
   - POST /crm
 ## Ingestion Layer
 
-- AWS Lambda — crm_webhook_ingestion_lambda
+**AWS Lambda — crm_webhook_ingestion_lambda**
 
   - Responsibilities:
      - Parses webhook payload
      - Extracts lead metadata
      - Writes raw event JSON into S3
      - Sends delayed processing message into SQS
+       
+- [Ingestion Lambda Setup](https://github.com/aaqibtariq/Real-Time-CRM-Lead-Processing/blob/main/Phases/Setup/ingestion_lambda%20setup.md)
 
 ## Raw Storage Layer
-
-Amazon S3 — Raw Bucket
+**Amazon S3 — Raw Bucket**
 - Bucket:
      - crm-lead-pipeline-raw-aqib
      - Folder:
@@ -115,11 +115,12 @@ Amazon S3 — Raw Bucket
      - Replay capability
      - Audit trail
      - Source-of-truth webhook archive
+     - 
 - [Raw S3 Setup](https://github.com/aaqibtariq/Real-Time-CRM-Lead-Processing/blob/main/Phases/Setup/raw%20S3%20setup.md)
 
 ## Asynchronous Processing Layer
 
-Amazon SQS Delay Queue
+**Amazon SQS Delay Queue**
 
 **Queue: crm-lead-delay-queue**
 
@@ -138,89 +139,90 @@ Purpose:
      - Supports retry/error investigation
      - Improves pipeline resiliency
      
-Enrichment Layer
-AWS Lambda — crm_lead_enrichment_lambda
+ -  [SQS Delay Queue Setup](https://github.com/aaqibtariq/Real-Time-CRM-Lead-Processing/blob/main/Phases/Setup/SQS%20Delay%20Queue.md)
+    
+## Enrichment Layer
 
-Responsibilities:
+**AWS Lambda — crm_lead_enrichment_lambda**
 
-Consumes delayed SQS messages
-Reads raw lead event from S3
-Retrieves public lookup metadata
-Enriches lead information
-Writes final enriched JSON to target S3
-Sends SNS notifications
-Public Lookup Layer
-Public Amazon S3 Lookup Bucket
+- Responsibilities:
+  - Consumes delayed SQS messages
+  - Reads raw lead event from S3
+  - Retrieves public lookup metadata
+  - Enriches lead information
+  - Writes final enriched JSON to target S3
+  - Sends SNS notifications
 
-Lookup URL:
+- [Enrichment Lambda Setup](https://github.com/aaqibtariq/Real-Time-CRM-Lead-Processing/blob/main/Phases/Setup/Enrichment%20Lambda.md)
 
-https://***.s3.us-east-1.amazonaws.com/{lead_id}.json
+## Public Lookup Layer
+**Public Amazon S3 Lookup Bucket**
 
-Purpose:
+- Lookup URL:
+    - https://***.s3.us-east-1.amazonaws.com/{lead_id}.json
+- Purpose:
+  - Stores lead owner lookup data
+  - Provides additional enrichment metadata
+  - Simulates external lookup/enrichment service
+- Lookup attributes:
+  - lead owner
+  - lead email
+  - funnel
+  - lead metadata
 
-Stores lead owner lookup data
-Provides additional enrichment metadata
-Simulates external lookup/enrichment service
+- [Lead Owner Lookup Integration](https://github.com/aaqibtariq/Real-Time-CRM-Lead-Processing/blob/main/Phases/Setup/Lead%20Owner%20Lookup%20Integration.md)
 
-Lookup attributes:
+## Enriched Storage Layer
+**Amazon S3 — Enriched Bucket**
 
-lead owner
-lead email
-funnel
-lead metadata
-Enriched Storage Layer
-Amazon S3 — Enriched Bucket
+- Bucket:
+  - crm-lead-pipeline-enriched-aqib
+- Folder:
+  - target/
+- Purpose:
+  - Stores enriched lead records
+  - Final curated output layer
+  - Downstream analytics/reporting source
 
-Bucket:
+- [Enrichment S3 Setup](https://github.com/aaqibtariq/Real-Time-CRM-Lead-Processing/blob/main/Phases/Setup/Enrichment%20S3.md)
 
-crm-lead-pipeline-enriched-aqib
+## Notification Layer
+**Amazon SNS**
 
-Folder:
+- Topic:
+  - crm-lead-email-alert-topic
+- Purpose:
+  - Sends automated lead alert emails
+  - Notifies stakeholders of newly enriched leads
+  - Provides real-time business visibility
+- Email includes:
+  - lead name
+  - lead email
+  - lead owner
+  - funnel
+  - status
+  - creation date
+ 
+-  [SNS Alerting Setup](https://github.com/aaqibtariq/Real-Time-CRM-Lead-Processing/blob/main/Phases/Setup/SNS.md)
 
-target/
+    
+## Monitoring Layer
+**Amazon CloudWatch**
 
-Purpose:
+- Purpose:
+  - Lambda logging
+  - SQS monitoring
+  - Error tracking
+  - Debugging
+  - Operational observability
+- Tracked metrics:
+  - delayed messages
+  - visible messages
+  - failed executions
+  - Lambda logs
+  - DLQ activity
 
-Stores enriched lead records
-Final curated output layer
-Downstream analytics/reporting source
-Notification Layer
-Amazon SNS
+##  Pipeline Results & Validation Outputs
 
-Topic:
-
-crm-lead-email-alert-topic
-
-Purpose:
-
-Sends automated lead alert emails
-Notifies stakeholders of newly enriched leads
-Provides real-time business visibility
-
-Email includes:
-
-lead name
-lead email
-lead owner
-funnel
-status
-creation date
-Monitoring Layer
-Amazon CloudWatch
-
-Purpose:
-
-Lambda logging
-SQS monitoring
-Error tracking
-Debugging
-Operational observability
-
-Tracked metrics:
-
-delayed messages
-visible messages
-failed executions
-Lambda logs
-DLQ activity
-
+-  **Raw Events, Enriched Leads & Execution Results**  
+  → [View Result Files](https://github.com/aaqibtariq/Real-Time-CRM-Lead-Processing/tree/main/Phases/Result)
