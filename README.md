@@ -72,9 +72,6 @@ The architecture demonstrates a scalable, fault-tolerant, loosely coupled server
   
 # Architecture Components
 
-
-
-
 ## CRM Source System
 
 - Close CRM
@@ -115,7 +112,7 @@ The architecture demonstrates a scalable, fault-tolerant, loosely coupled server
      - Replay capability
      - Audit trail
      - Source-of-truth webhook archive
-     - 
+       
 - [Raw S3 Setup](https://github.com/aaqibtariq/Real-Time-CRM-Lead-Processing/blob/main/Phases/Setup/raw%20S3%20setup.md)
 
 ## Asynchronous Processing Layer
@@ -133,8 +130,7 @@ The architecture demonstrates a scalable, fault-tolerant, loosely coupled server
 
 **Queue: crm-lead-delay-dlq**
 
-Purpose:
-
+- Purpose:
      - Captures failed processing events
      - Supports retry/error investigation
      - Improves pipeline resiliency
